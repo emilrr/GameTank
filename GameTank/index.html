@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <title>Tank Canvas Game</title>
+    <style>
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: transparent;
+        }
+
+        #background {
+            z-index: -2;
+        }
+
+        #main {
+            z-index: -1;
+        }
+
+        #tank {
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+<canvas id="background" width="1150" height="650">
+    Your browser does not support canvas. Please try again with a different browser.
+</canvas>
+<canvas id="main" width="1150" height="650"></canvas>
+<canvas id="tank" width="1150" height="650"></canvas>
+<script src="game.js"></script>
+</body>
+</html>
