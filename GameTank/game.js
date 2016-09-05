@@ -526,7 +526,7 @@ function Game() {
                 this.tankContext,
                 this.tankCanvas);
 
-            this.speedMonster += 0.1;
+            this.speedMonster = 2;
             this.monster = new Monster(0, 10, imageRepository.monster.width, imageRepository.monster.height, this.speedMonster);
 
             return true;
