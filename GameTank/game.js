@@ -1,4 +1,13 @@
-var game = new Game();
+var game = new Game(),
+    tankObstacles,
+    imageRepository,
+    Drawable,
+    Background,
+    Obstacles,
+    Bullet,
+    Pool,
+    Monster,
+    Tank;
 
 function startGame() {
     if (game.init()) {
@@ -6,7 +15,7 @@ function startGame() {
     }
 }
 
-var tankObstacles = [
+tankObstacles = [
     {
         'x': 335,
         'y': 450,
@@ -51,7 +60,9 @@ var tankObstacles = [
     }
 ];
 
-var imageRepository = new function () {
+imageRepository = new function () {
+    var numImages,
+        numLoaded;
     this.background = new Image();
     this.tank = new Image();
     this.bullet = new Image();
@@ -59,8 +70,8 @@ var imageRepository = new function () {
     this.monsterSecond = new Image();
     this.obstacle = new Image();
 
-    var numImages = 5;
-    var numLoaded = 0;
+    numImages = 5;
+    numLoaded = 0;
 
     function imageLoaded() {
         numLoaded++;
@@ -96,7 +107,7 @@ var imageRepository = new function () {
     this.obstacle.src = "images/obstacle.png";
 }();
 
-var Drawable = (function () {
+Drawable = (function () {
     function Drawable(x, y, width, height) {
         this.x = x;
         this.y = y;
@@ -113,7 +124,7 @@ var Drawable = (function () {
     return Drawable;
 }());
 
-var Background = (function () {
+Background = (function () {
     function Background(x, y) {
         Drawable.call(this, x, y);
     }
@@ -127,7 +138,7 @@ var Background = (function () {
     return Background;
 }());
 
-var Obstacles = (function () {
+Obstacles = (function () {
     function Obstacles(x, y) {
         Drawable.call(this, x, y);
     }
@@ -146,7 +157,7 @@ var Obstacles = (function () {
     return Obstacles;
 }());
 
-var Bullet = (function () {
+Bullet = (function () {
     function Bullet(x, y, width, height) {
         Drawable.call(this, x, y, width, height);
         this.alive = false;
@@ -206,13 +217,14 @@ var Bullet = (function () {
     return Bullet;
 }());
 
-var Pool = (function () {
+Pool = (function () {
     var pool = [];
 
     function Pool(size) {
+        var bullet;
         this.size = size || 0;
         for (var i = 0; i < this.size; i++) {
-            var bullet = new Bullet(0, 0, imageRepository.bullet.width, imageRepository.bullet.height);
+            bullet = new Bullet(0, 0, imageRepository.bullet.width, imageRepository.bullet.height);
             pool[i] = bullet;
         }
     }
@@ -241,7 +253,7 @@ var Pool = (function () {
     return Pool;
 }());
 
-var Monster = (function () {
+Monster = (function () {
     var changeMonster = 1;
 
     function Monster(x, y, width, height, speed) {
@@ -253,6 +265,7 @@ var Monster = (function () {
         this.rightPoint = randomIntFromInterval(410, 1080);
         this.leftPoint = randomIntFromInterval(0, 400);
         this.bottomPoint = randomIntFromInterval(this.y, 580);
+        this.changeMonster = ++changeMonster;
     }
 
     function randomIntFromInterval(min, max) {
@@ -262,6 +275,7 @@ var Monster = (function () {
     Monster.prototype.draw = function () {
         var startPositionMonster = randomIntFromInterval(0, 500);
         this.context.save();
+
         if (this.angle === 90 || this.angle === 0) {
             this.context.clearRect(this.x - 5, this.y, 40, 40); //move right
         } else if (this.angle === 270) {
@@ -271,7 +285,7 @@ var Monster = (function () {
         }
 
         if (this.alive) {
-            if (changeMonster % 2 === 0) {
+            if (this.changeMonster % 2 === 0) {
                 this.context.drawImage(imageRepository.monster, this.x, this.y, 30, 30);
             } else {
                 this.context.drawImage(imageRepository.monsterSecond, this.x, this.y, 30, 30);
@@ -287,8 +301,6 @@ var Monster = (function () {
             } else {
                 game.monster = new Monster(0, startPositionMonster, imageRepository.monsterSecond.width, imageRepository.monsterSecond.height, this.speed);
             }
-
-            changeMonster += 1;
         }
     };
 
@@ -332,7 +344,9 @@ var Monster = (function () {
     return Monster;
 }());
 
-var Tank = (function () {
+Tank = (function () {
+    var fireRate = 20,
+        counter = 0;
     function Tank(x, y, width, height) {
         Drawable.call(this, x, y, width, height);
         this.speed = 3;
@@ -341,9 +355,6 @@ var Tank = (function () {
     }
 
     Tank.prototype = new Drawable();
-
-    var fireRate = 20;
-    var counter = 0;
 
     Tank.prototype.draw = function () {
         this.context.save();
