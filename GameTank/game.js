@@ -38,25 +38,13 @@ var tankObstacles = [
         'height': 50
     },
     {
-        'x': 800,
-        'y': 550,
-        'width': 50,
-        'height': 50
-    },
-    {
         'x': 650,
         'y': 150,
         'width': 50,
         'height': 50
     },
     {
-        'x': 1150,
-        'y': 150,
-        'width': 50,
-        'height': 50
-    },
-    {
-        'x': 1150,
+        'x': 950,
         'y': 500,
         'width': 50,
         'height': 50
@@ -68,6 +56,7 @@ var imageRepository = new function () {
     this.tank = new Image();
     this.bullet = new Image();
     this.monster = new Image();
+    this.monsterSecond = new Image();
     this.obstacle = new Image();
 
     var numImages = 5;
@@ -92,6 +81,9 @@ var imageRepository = new function () {
     this.monster.onload = function () {
         imageLoaded();
     };
+    this.monsterSecond.onload = function () {
+        imageLoaded();
+    };
     this.obstacle.onload = function () {
         imageLoaded();
     };
@@ -99,6 +91,7 @@ var imageRepository = new function () {
     this.background.src = "images/background.png";
     this.tank.src = "images/tank.png";
     this.bullet.src = "images/bullet.png";
+    this.monsterSecond.src = "images/monsterSecond.png";
     this.monster.src = "images/monster.png";
     this.obstacle.src = "images/obstacle.png";
 }();
@@ -251,6 +244,7 @@ var Pool = (function () {
 var Monster = (function () {
     var rightNum = randomIntFromInterval(0, 1080);
     var leftNum = randomIntFromInterval(0, 1080);
+    var changeMonster = 1;
 
     if (leftNum > rightNum) {
         var temp = rightNum;
@@ -285,30 +279,40 @@ var Monster = (function () {
         }
 
         if (this.alive) {
-            this.context.drawImage(imageRepository.monster, this.x, this.y, 30, 30);
+            if (changeMonster % 2 === 0) {
+                this.context.drawImage(imageRepository.monster, this.x, this.y, 30, 30);
+            } else {
+                this.context.drawImage(imageRepository.monsterSecond, this.x, this.y, 30, 30);
+            }
         }
 
         this.context.translate(this.x, this.y);
         this.context.restore();
 
         if (this.isKilled) {
-            game.monster = new Monster(0, startPositionMonster, imageRepository.monster.width, imageRepository.monster.height, this.speed);
+            if (changeMonster % 2 === 0) {
+                game.monster = new Monster(0, startPositionMonster, imageRepository.monster.width, imageRepository.monster.height, this.speed);
+            } else {
+                game.monster = new Monster(0, startPositionMonster, imageRepository.monsterSecond.width, imageRepository.monsterSecond.height, this.speed);
+            }
+
+            changeMonster += 1;
         }
     };
 
     Monster.prototype.move = function () {
         /*if(this.x >= game.background.canvasWidth - 50){
-            this.x = game.background.canvasWidth - 50;
-            this.rightPoint = game.background.canvasWidth - 50;
-        }
-        if(this.x <= 0){
-            this.x = 0;
-            this.leftPoint = 0;
-        }
-        if(this.y >= game.background.canvasHeight - 50){
-            this.y = game.background.canvasHeight - 50;
-            this.bottomPoint = game.background.canvasHeight - 50;
-        }*/
+         this.x = game.background.canvasWidth - 50;
+         this.rightPoint = game.background.canvasWidth - 50;
+         }
+         if(this.x <= 0){
+         this.x = 0;
+         this.leftPoint = 0;
+         }
+         if(this.y >= game.background.canvasHeight - 50){
+         this.y = game.background.canvasHeight - 50;
+         this.bottomPoint = game.background.canvasHeight - 50;
+         }*/
 
         if (this.angle === 0 && this.x < this.rightPoint) {
             this.angle = 0;
@@ -339,7 +343,7 @@ var Monster = (function () {
 var Tank = (function () {
     function Tank(x, y, width, height) {
         Drawable.call(this, x, y, width, height);
-        this.speed = 4;
+        this.speed = 3;
         this.angle = 0;
         this.bulletPool = new Pool(5);
     }
@@ -530,7 +534,7 @@ function Game() {
                 this.tankContext,
                 this.tankCanvas);
 
-            this.speedMonster = 2.0;
+            this.speedMonster = 2;
             this.monster = new Monster(0, 10, imageRepository.monster.width, imageRepository.monster.height, this.speedMonster);
 
             return true;
