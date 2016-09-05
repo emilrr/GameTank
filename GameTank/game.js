@@ -242,15 +242,7 @@ var Pool = (function () {
 }());
 
 var Monster = (function () {
-    var rightNum = randomIntFromInterval(0, 1080);
-    var leftNum = randomIntFromInterval(0, 1080);
     var changeMonster = 1;
-
-    if (leftNum > rightNum) {
-        var temp = rightNum;
-        rightNum = leftNum;
-        leftNum = temp;
-    }
 
     function Monster(x, y, width, height, speed) {
         Drawable.call(this, x, y, width, height);
@@ -258,8 +250,8 @@ var Monster = (function () {
         this.alive = true;
         this.angle = 0;
         this.isKilled = false;
-        this.rightPoint = rightNum;
-        this.leftPoint = leftNum;
+        this.rightPoint = randomIntFromInterval(410, 1080);
+        this.leftPoint = randomIntFromInterval(0, 400);
         this.bottomPoint = randomIntFromInterval(this.y, 580);
     }
 
@@ -534,7 +526,7 @@ function Game() {
                 this.tankContext,
                 this.tankCanvas);
 
-            this.speedMonster = 2;
+            this.speedMonster += 0.1;
             this.monster = new Monster(0, 10, imageRepository.monster.width, imageRepository.monster.height, this.speedMonster);
 
             return true;
