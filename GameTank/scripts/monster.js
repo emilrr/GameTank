@@ -36,9 +36,9 @@ var Monster = (function () {
 
         if (this.alive === true && this.gameOver === false) {
             if (this.changeMonster % 2 === 0) {
-                this.context.drawImage(imageRepository.monster, this.x, this.y, 30, 30);
+                this.context.drawImage(imageRepository.greenMonster, this.x, this.y, 30, 30);
             } else {
-                this.context.drawImage(imageRepository.monsterSecond, this.x, this.y, 30, 30);
+                this.context.drawImage(imageRepository.blueMonster, this.x, this.y, 30, 30);
             }
         }
 
@@ -47,9 +47,9 @@ var Monster = (function () {
 
         if (this.isKilled) {
             if (this.changeMonster % 2 === 0) {
-                game.monster = new Monster(0, startPositionMonster, imageRepository.monster.width, imageRepository.monster.height, this.speed);
+                game.monster = new Monster(0, startPositionMonster, imageRepository.greenMonster.width, imageRepository.greenMonster.height, this.speed);
             } else {
-                game.monster = new Monster(0, startPositionMonster, imageRepository.monsterSecond.width, imageRepository.monsterSecond.height, this.speed);
+                game.monster = new Monster(0, startPositionMonster, imageRepository.blueMonster.width, imageRepository.blueMonster.height, this.speed);
             }
         }
     };
@@ -116,10 +116,11 @@ var Monster = (function () {
             if (areTouching(this, game.tank)) {
                 game.tank.gameOver = true;
                 game.monster.gameOver = true;
+                game.tank.draw();
                 setTimeout(function () {
                     game.gameOver.draw();
                 }, 500);
-            }
+            }            
             this.draw();
         }
     };

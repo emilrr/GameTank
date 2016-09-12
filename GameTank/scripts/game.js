@@ -11,30 +11,24 @@ obstaclesArray = [
     },
     {
         'x': 850,
-        'y': 200,
+        'y': 100,
         'width': 50,
         'height': 50
     },
     {
-        'x': 250,
+        'x': 350,
         'y': 450,
         'width': 50,
         'height': 50
     },
     {
-        'x': 550,
-        'y': 350,
-        'width': 50,
-        'height': 50
-    },
-    {
         'x': 650,
-        'y': 150,
+        'y': 250,
         'width': 50,
         'height': 50
     },
     {
-        'x': 950,
+        'x': 850,
         'y': 500,
         'width': 50,
         'height': 50
@@ -48,8 +42,8 @@ imageRepository = new function () {
     this.gameOver = new Image();
     this.tank = new Image();
     this.bullet = new Image();
-    this.monster = new Image();
-    this.monsterSecond = new Image();
+    this.greenMonster = new Image();
+    this.blueMonster = new Image();
     this.obstacle = new Image();
 
     numImages = 6;
@@ -62,7 +56,7 @@ imageRepository = new function () {
         }
     }
 
-    this.gameOver.onload = function () {
+    this.obstacle.onload = function () {
         imageLoaded();
     };
     this.tank.onload = function () {
@@ -71,21 +65,21 @@ imageRepository = new function () {
     this.bullet.onload = function () {
         imageLoaded();
     };
-    this.monster.onload = function () {
+    this.greenMonster.onload = function () {
         imageLoaded();
     };
-    this.monsterSecond.onload = function () {
+    this.blueMonster.onload = function () {
         imageLoaded();
     };
-    this.obstacle.onload = function () {
+    this.gameOver.onload = function () {
         imageLoaded();
     };
 
     this.gameOver.src = "images/gameOver.png";
     this.tank.src = "images/tank.png";
     this.bullet.src = "images/bullet.png";
-    this.monsterSecond.src = "images/blueMonster.png";
-    this.monster.src = "images/greenMonster.png";
+    this.blueMonster.src = "images/blueMonster.png";
+    this.greenMonster.src = "images/greenMonster.png";
     this.obstacle.src = "images/obstacle.png";
 }();
 
@@ -126,8 +120,7 @@ function areTouching(obj1, obj2) {
 }
 
 function isColliding(obj) {
-    var i,
-        len;
+    var i, len;
 
     for (i = 0, len = obstaclesArray.length; i < len; i += 1) {
         if (areTouching(obstaclesArray[i], obj)) {
@@ -186,7 +179,7 @@ function Game() {
             this.tank = new Tank(tankStartX, tankStartY, imageRepository.tank.width, imageRepository.tank.height, this.tankContext, this.tankCanvas);
 
             this.speedMonster = 3;
-            this.monster = new Monster(0, 10, imageRepository.monster.width, imageRepository.monster.height, this.speedMonster);
+            this.monster = new Monster(0, 10, imageRepository.greenMonster.width, imageRepository.greenMonster.height, this.speedMonster);
 
             return true;
         } else {
@@ -239,6 +232,6 @@ window.requestAnimFrame = (function () {
         window.oRequestAnimationFrame ||
         window.msRequestAnimationFrame ||
         function (/* function */ callback, /* DOMElement */ element) {
-            window.setTimeout(callback, 1000 / 180);
+            window.setTimeout(callback, 5000 / 180);
         };
 })();

@@ -37,6 +37,7 @@ var Tank = (function () {
 
     Tank.prototype.move = function () {
         counter++;
+        console.log(this.x + ' ' + this.y);
         if (!this.gameOver) {
             if (KEY_STATUS.left || KEY_STATUS.right ||
                 KEY_STATUS.down || KEY_STATUS.up) {
