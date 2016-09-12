@@ -37,7 +37,6 @@ var Tank = (function () {
 
     Tank.prototype.move = function () {
         counter++;
-        console.log(this.x + ' ' + this.y);
         if (!this.gameOver) {
             if (KEY_STATUS.left || KEY_STATUS.right ||
                 KEY_STATUS.down || KEY_STATUS.up) {
@@ -84,14 +83,6 @@ var Tank = (function () {
                     if (isColliding(this)) {
                         this.y -= this.speed;
                     }
-                }
-
-                if (areTouching(game.monster, this)) {
-                    game.tank.gameOver = true;
-                    game.monster.gameOver = true;
-                    setTimeout(function () {
-                        game.gameOver.draw();
-                    }, 500)
                 }
 
                 this.draw();

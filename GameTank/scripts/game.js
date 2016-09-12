@@ -39,14 +39,15 @@ imageRepository = new function () {
     var numImages,
         numLoaded;
 
-    this.gameOver = new Image();
+    this.obstacle = new Image();
     this.tank = new Image();
     this.bullet = new Image();
     this.greenMonster = new Image();
     this.blueMonster = new Image();
-    this.obstacle = new Image();
+    this.explosion = new Image();
+    this.gameOver = new Image();
 
-    numImages = 6;
+    numImages = 7;
     numLoaded = 0;
 
     function imageLoaded() {
@@ -71,16 +72,20 @@ imageRepository = new function () {
     this.blueMonster.onload = function () {
         imageLoaded();
     };
+    this.explosion.onload = function () {
+        imageLoaded();
+    };
     this.gameOver.onload = function () {
         imageLoaded();
     };
 
-    this.gameOver.src = "images/gameOver.png";
+    this.obstacle.src = "images/obstacle.png";
     this.tank.src = "images/tank.png";
     this.bullet.src = "images/bullet.png";
     this.blueMonster.src = "images/blueMonster.png";
     this.greenMonster.src = "images/greenMonster.png";
-    this.obstacle.src = "images/obstacle.png";
+    this.explosion.src = "images/explosion.png";
+    this.gameOver.src = "images/gameOver.png";
 }();
 
 function startGame() {

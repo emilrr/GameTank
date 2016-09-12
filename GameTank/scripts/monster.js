@@ -114,12 +114,25 @@ var Monster = (function () {
             }
 
             if (areTouching(this, game.tank)) {
+                const x = this.x;
+                const y = this.y;
+
                 game.tank.gameOver = true;
                 game.monster.gameOver = true;
                 game.tank.draw();
+                
                 setTimeout(function () {
+                    game.gameOver.x = x;
+                    game.gameOver.y = y;
                     game.gameOver.draw();
-                }, 500);
+                }, 100);
+
+                setTimeout(function () {
+                    game.gameOver.isExplosion = false;
+                    game.gameOver.x = 0;
+                    game.gameOver.y = 0;
+                    game.gameOver.draw();
+                }, 2000);
             }            
             this.draw();
         }
