@@ -1,0 +1,23 @@
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: transparent;
+}
+
+body {
+    background: url(images/background.png) no-repeat;
+    background-size: 1150px 650px;
+}
+
+#obstacles {
+    z-index: -2;
+}
+
+#main {
+    z-index: -1;
+}
+
+#tank {
+    z-index: 0;
+}

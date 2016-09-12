@@ -21,105 +21,107 @@ var Monster = (function () {
     }
 
     Monster.prototype.draw = function () {
-        if (!this.gameOver) {
-            var startPositionMonster = randomIntFromInterval(0, 500);
-            this.context.save();
+        var startPositionMonster = randomIntFromInterval(0, 500);
+        this.context.save();
 
-            if (this.direction === 3 || this.direction === 0) {
-                this.context.clearRect(this.x - 5, this.y - 3, 40, 40); //move right
-            } else if (this.direction === 1) {
-                this.context.clearRect(this.x, this.y, 40, 40); //move left
-            } else if (this.direction === 2) {
-                this.context.clearRect(this.x, this.y - 5, 40, 40);  //move down
-            } else if (this.direction === 4) {
-                this.context.clearRect(this.x - 4, this.y, 40, 40);  //move up
+        if (this.direction === 3 || this.direction === 0) {
+            this.context.clearRect(this.x - 5, this.y - 3, 40, 40); //move right
+        } else if (this.direction === 1) {
+            this.context.clearRect(this.x, this.y, 40, 40); //move left
+        } else if (this.direction === 2) {
+            this.context.clearRect(this.x, this.y - 5, 40, 40);  //move down
+        } else if (this.direction === 4) {
+            this.context.clearRect(this.x - 4, this.y, 40, 40);  //move up
+        }
+
+        if (this.alive === true && this.gameOver === false) {
+            if (this.changeMonster % 2 === 0) {
+                this.context.drawImage(imageRepository.monster, this.x, this.y, 30, 30);
+            } else {
+                this.context.drawImage(imageRepository.monsterSecond, this.x, this.y, 30, 30);
             }
+        }
 
-            if (this.alive) {
-                if (this.changeMonster % 2 === 0) {
-                    this.context.drawImage(imageRepository.monster, this.x, this.y, 30, 30);
-                } else {
-                    this.context.drawImage(imageRepository.monsterSecond, this.x, this.y, 30, 30);
-                }
-            }
+        this.context.translate(this.x, this.y);
+        this.context.restore();
 
-            this.context.translate(this.x, this.y);
-            this.context.restore();
-
-            if (this.isKilled) {
-                if (this.changeMonster % 2 === 0) {
-                    game.monster = new Monster(0, startPositionMonster, imageRepository.monster.width, imageRepository.monster.height, this.speed);
-                } else {
-                    game.monster = new Monster(0, startPositionMonster, imageRepository.monsterSecond.width, imageRepository.monsterSecond.height, this.speed);
-                }
+        if (this.isKilled) {
+            if (this.changeMonster % 2 === 0) {
+                game.monster = new Monster(0, startPositionMonster, imageRepository.monster.width, imageRepository.monster.height, this.speed);
+            } else {
+                game.monster = new Monster(0, startPositionMonster, imageRepository.monsterSecond.width, imageRepository.monsterSecond.height, this.speed);
             }
         }
     };
 
     Monster.prototype.move = function () {
-        if (this.direction === 0) {
-            this.x += this.speed;
+        if (!this.gameOver) {
+            if (this.direction === 0) {
+                this.x += this.speed;
 
-            if (isColliding(this)) {
-                this.x -= 2;
-                this.rightPoint = this.x;
+                if (isColliding(this)) {
+                    this.x -= 2;
+                    this.rightPoint = this.x;
+                }
+
+                if (this.x >= this.rightPoint) {
+                    this.direction = 1;
+                }
+            } else if (this.direction === 1) {
+                this.x -= this.speed;
+
+                if (isColliding(this)) {
+                    this.x += 2;
+                    this.leftPoint = this.x;
+                }
+
+                if (this.x <= this.leftPoint) {
+                    this.direction = 2;
+                    this.upPoint = this.y;
+                }
+            } else if (this.direction === 2) {
+                this.y += this.speed;
+
+                if (isColliding(this)) {
+                    this.y -= 3;
+                    this.bottomPoint = this.y;
+                }
+
+                if (this.y >= this.bottomPoint) {
+                    this.direction = 3;
+                }
+            } else if (this.direction === 3) {
+                this.x += this.speed;
+                if (isColliding(this)) {
+                    this.x -= 2;
+                    this.rightPoint = this.x;
+                }
+
+                if (this.x >= this.rightPoint) {
+                    this.direction = 4;
+                }
+            } else if (this.direction === 4) {
+                this.y -= this.speed;
+
+                if (isColliding(this)) {
+                    this.y += 2;
+                    this.upPoint = this.y;
+                }
+
+                if (this.y <= this.upPoint) {
+                    this.direction = 1;
+                }
             }
 
-            if (this.x >= this.rightPoint) {
-                this.direction = 1;
+            if (areTouching(this, game.tank)) {
+                game.tank.gameOver = true;
+                game.monster.gameOver = true;
+                setTimeout(function () {
+                    game.gameOver.draw();
+                }, 500);
             }
-        } else if (this.direction === 1) {
-            this.x -= this.speed;
-
-            if (isColliding(this)) {
-                this.x += 2;
-                this.leftPoint = this.x;
-            }
-
-            if (this.x <= this.leftPoint) {
-                this.direction = 2;
-                this.upPoint = this.y;
-            }
-        } else if (this.direction === 2) {
-            this.y += this.speed;
-
-            if (isColliding(this)) {
-                this.y -= 3;
-                this.bottomPoint = this.y;
-            }
-
-            if (this.y >= this.bottomPoint) {
-                this.direction = 3;
-            }
-        } else if (this.direction === 3) {
-            this.x += this.speed;
-            if (isColliding(this)) {
-                this.x -= 2;
-                this.rightPoint = this.x;
-            }
-
-            if (this.x >= this.rightPoint) {
-                this.direction = 4;
-            }
-        } else if (this.direction === 4) {
-            this.y -= this.speed;
-
-            if (isColliding(this)) {
-                this.y += 2;
-                this.upPoint = this.y;
-            }
-
-            if (this.y <= this.upPoint) {
-                this.direction = 1;
-            }
+            this.draw();
         }
-
-        if (areTouching(this, game.tank)) {
-            game.tank.gameOver = true;
-            game.monster.gameOver = true;
-            game.gameOver.draw();
-        }
-        this.draw();
     };
 
     Monster.prototype.clear = function () {

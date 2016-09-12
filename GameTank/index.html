@@ -4,44 +4,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
     <title>Tank Canvas Game</title>
-    <style>
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            background: transparent;
-        }
-
-        body {
-            background: url(images/background.png) no-repeat;
-            background-size: 1150px 650px;
-        }
-
-        #obstacles {
-            z-index: -2;
-        }
-
-        #main {
-            z-index: -1;
-        }
-
-        #tank {
-            z-index: 0;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<canvas id="obstacles" width="1150" height="650"></canvas>
-<canvas id="main" width="1150" height="650"></canvas>
-<canvas id="tank" width="1150" height="650"></canvas>
+    <canvas id="obstacles" width="1150" height="650"></canvas>
+    <canvas id="main" width="1150" height="650"></canvas>
+    <canvas id="tank" width="1150" height="650"></canvas>
 
-<script src="scripts/drawable.js"></script>
-<script src="scripts/pool.js"></script>
-<script src="scripts/bullet.js"></script>
-<script src="scripts/monster.js"></script>
-<script src="scripts/obstacles.js"></script>
-<script src="scripts/tank.js"></script>
-<script src="scripts/gameOver.js"></script>
-<script src="scripts/game.js"></script>
+    <script src="scripts/drawable.js"></script>
+    <script src="scripts/pool.js"></script>
+    <script src="scripts/bullet.js"></script>
+    <script src="scripts/monster.js"></script>
+    <script src="scripts/obstacles.js"></script>
+    <script src="scripts/tank.js"></script>
+    <script src="scripts/gameOver.js"></script>
+    <script src="scripts/game.js"></script>
 </body>
 </html>

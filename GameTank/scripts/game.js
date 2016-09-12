@@ -170,7 +170,7 @@ function Game() {
             Bullet.prototype.canvasWidth = this.mainCanvas.width;
             Bullet.prototype.canvasHeight = this.mainCanvas.height;
 
-            GameOver.prototype.context = this.mainContext;
+            GameOver.prototype.context = this.tankContext;
             GameOver.prototype.canvasWidth = this.tankCanvas.width;
             GameOver.prototype.canvasHeight = this.tankCanvas.height;
 
