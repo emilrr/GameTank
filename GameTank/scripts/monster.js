@@ -7,10 +7,9 @@ var Monster = (function () {
         this.alive = true;
         this.direction = 0;
         this.isKilled = false;
-        this.rightPoint = randomIntFromInterval(410, 1080);
-        this.leftPoint = randomIntFromInterval(0, 400);
-        this.bottomPoint = randomIntFromInterval(this.y, 580);
-        this.bottomPoint = 250;
+        this.rightPoint = randomIntFromInterval(360, 1080) + 50;
+        this.leftPoint = randomIntFromInterval(20, 350);
+        this.bottomPoint = randomIntFromInterval(this.y, 580) + 50;
         this.upPoint = 0;
         this.changeMonster = ++changeMonster;
         this.gameOver = false;
@@ -29,7 +28,7 @@ var Monster = (function () {
         } else if (this.direction === 1) {
             this.context.clearRect(this.x, this.y, 40, 40); //move left
         } else if (this.direction === 2) {
-            this.context.clearRect(this.x, this.y - 5, 40, 40);  //move down
+            this.context.clearRect(this.x, this.y - 6, 40, 40);  //move down
         } else if (this.direction === 4) {
             this.context.clearRect(this.x - 4, this.y, 40, 40);  //move up
         }

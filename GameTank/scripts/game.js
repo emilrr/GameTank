@@ -4,7 +4,7 @@ var game = new Game(),
 
 obstaclesArray = [
     {
-        'x': 300,
+        'x': 400,
         'y': 150,
         'width': 50,
         'height': 50
@@ -235,8 +235,5 @@ window.requestAnimFrame = (function () {
         window.webkitRequestAnimationFrame ||
         window.mozRequestAnimationFrame ||
         window.oRequestAnimationFrame ||
-        window.msRequestAnimationFrame ||
-        function (/* function */ callback, /* DOMElement */ element) {
-            window.setTimeout(callback, 5000 / 180);
-        };
+        window.msRequestAnimationFrame 
 })();
